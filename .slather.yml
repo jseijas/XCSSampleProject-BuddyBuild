@@ -1,0 +1,4 @@
+coverage_service: cobertura_xml
+xcodeproj: XCSTutorialProject1.xcodeproj
+scheme: XCSTutorialProject1
+output_directory: .
