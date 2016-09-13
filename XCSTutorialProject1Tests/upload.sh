@@ -27,7 +27,7 @@ fi
 
 if [ -z ${PROJECT_ID} ]; then
          echo "Project ID not found"
-    exit 1
+exit 1i:
 fi
 
 if [ -z ${APP_FILE} ]; then
