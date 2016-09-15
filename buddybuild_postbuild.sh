@@ -1,13 +1,8 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-#  upload.sh
-#  XCSTutorialProject1
 #
 #  Created by Hilary Chukwuji on 12/09/16.
 #  Copyright (c) 2016 Honza Dvorsky. All rights reserved.
-
-
-echo "uploading IPA file"
 
 if [ -z ${API_ENDPOINT} ]; then
 API_ENDPOINT=https://cloud.testdroid.com
