@@ -30,25 +30,28 @@ if [ -z ${PROJECT_ID} ]; then
 exit
 fi
 
-#curl \
-#-F "file=@$BUDDYBUILD_IPA_PATH" \
-#-F "build_number=$BUDDYBUILD_BUILD_NUMBER"
-
 
 
 if [ -z ${APP_FILE} ]; then
-APP_FILE=/Users/hchukwuji/Documents/workspace/testdroid-demo/appium-client-side-suit/appium-java-ios-local-testdroid-cloud/src/app/BitbarIOSSample.ipa
-#APP_FILE=BUDDYBUILD_IPA_PATH
+#APP_FILE=/Users/hchukwuji/Documents/workspace/testdroid-demo/appium-client-side-suit/appium-java-ios-local-testdroid-cloud/src/app/BitbarIOSSample.ipa
+APP_FILE=BUDDYBUILD_IPA_PATH
 
 fi
 
+
+if [ -z "$BUILD_NUMBER" ]; then
+BUILD_NUMBER=build_number
+
+fi
 
 if [ -z "$DEVICE_GROUP_NAME" ]; then
 DEVICE_GROUP_NAME=iOS-tip-device1
-#else
-#TESTDROID_APIKEY=$1
+
 fi
 
+curl \
+-F "file=@$BUDDYBUILD_IPA_PATH" \
+-F "build_number=$BUDDYBUILD_BUILD_NUMBER"
 
 
 # Check that Device Group exists
