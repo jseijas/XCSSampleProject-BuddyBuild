@@ -33,25 +33,24 @@ fi
 
 
 if [ -z ${APP_FILE} ]; then
-#APP_FILE=/Users/hchukwuji/Documents/workspace/testdroid-demo/appium-client-side-suit/appium-java-ios-local-testdroid-cloud/src/app/BitbarIOSSample.ipa
-APP_FILE=BUDDYBUILD_IPA_PATH
+APP_FILE=/Users/hchukwuji/Documents/workspace/testdroid-demo/appium-client-side-suit/appium-java-ios-local-testdroid-cloud/src/app/BitbarIOSSample.ipa
+#APP_FILE=BUDDYBUILD_IPA_PATH
 
 fi
 
+#if [ -z "$BUILD_NUMBER" ]; then
+#BUILD_NUMBER=build_number
 
-if [ -z "$BUILD_NUMBER" ]; then
-BUILD_NUMBER=build_number
-
-fi
+#fi
 
 if [ -z "$DEVICE_GROUP_NAME" ]; then
 DEVICE_GROUP_NAME=iOS-tip-device1
 
 fi
 
-curl \
--F "file=@$BUDDYBUILD_IPA_PATH" \
--F "build_number=$BUDDYBUILD_BUILD_NUMBER"
+#curl \
+#-F "file=@$BUDDYBUILD_IPA_PATH" \
+#-F "build_number=$BUDDYBUILD_BUILD_NUMBER"
 
 
 # Check that Device Group exists
@@ -66,15 +65,6 @@ exit
 fi
 
 
-#if [ -z ${DEVICE_GROUP_ID} ]; then
-#DEVICE_GROUP_ID=22225
-#exit
-#else
-#echo "Device Id not found"
-#exit
-#fi
-
-
 curl -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST -F "file=@${APP_FILE}" "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/files/application"
 
 
@@ -83,22 +73,21 @@ echo "Uploaded IPA file"
 
 #Create test run
 
-#TESTRUN_ID="$(curl -s -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/runs/device-groups/${DEVICE_GROUP_ID}")"
-
-#DEVICE_GROUP_ID=22225
-
 # Test run
 echo "launching test"
-#TESTRUN_ID="$(curl -s -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/runs?usedDeviceGroupId=$#{DEVICE_GROUP_ID}" | python -m json.tool | sed -n -e '/"id":/ s/^.* \(.*\),.*/\1/p')"
-
-#echo "Test run Id: ${TESTRUN_ID}"
 
 
-TESTRUN="$(curl -s -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/runs/?usedDeviceGroupId=${DEVICE_GROUP_ID}")"
-
-#TESTRUN="$(curl -s -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST/api/v2/me/projects/${PROJECT_ID}/runs"
-echo "Test run: ${TESTRUN}"
+TESTRUN_ID="$(curl -s -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/runs/?usedDeviceGroupId=${DEVICE_GROUP_ID}" | python -m json.tool | sed -n -e '/"id":/ s/^.* \(.*\),.*/\1/p')"
 
 
+echo "Test run ID: ${TESTRUN_ID}"
 
-#TESTRUN_ID="$(curl -s -H "Accept: application/json" -u ${TESTDROID_APIKEY}: -X POST "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/runs/TESTRUN_ID/start/#usedDeviceGroupId=${DEVICE_GROUP_ID}" | python -m json.tool | sed -n -e '/"id":/ s/^.* \(.*\),.*/\1/p')"
+
+#Get Sumary of test run
+
+TESTREPORT="$(curl -H "Accept: application/json" -X GET -u ${TESTDROID_APIKEY}: "${API_ENDPOINT}/api/v2/me/projects/${PROJECT_ID}/runs/${TESTRUN_ID}/reports/summary?type=HTML")"
+
+echo "Test report: ${TESTREPORT}"
+
+
+#curl -s -H "Accept: application/json" -u 0WD5ezcDOJpWDtXECDgzjCQ6nMDalKoB: -X POST "https://cloud.testdroid.com/api/v2/me/projects/99662668/runs/102548081/abort"
